@@ -95,8 +95,8 @@ public partial class Shop : Control {
             // TODO: Display error message
             return;
         }
+        gs.tokens -= wager;
         gs.wager = wager + gs.wagerMod;
-        gs.tokens -= gs.wager;
         gs.playRound();
     }
 }
