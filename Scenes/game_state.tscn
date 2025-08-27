@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlis4kh3hrpr"]
+
+[ext_resource type="Script" uid="uid://dip8tt4d63w5h" path="res://Scripts/GameState.cs" id="1_v31h2"]
+
+[node name="GameState" type="Node"]
+script = ExtResource("1_v31h2")
+StartTokens = 10
