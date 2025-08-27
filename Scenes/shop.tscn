@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://lf34vbeemjy2"]
+[gd_scene load_steps=3 format=3 uid="uid://lf34vbeemjy2"]
 
 [ext_resource type="Script" uid="uid://b82lj3b7neqpo" path="res://Scripts/Shop.cs" id="1_a0mxf"]
+[ext_resource type="Resource" uid="uid://dkckqcj1gfopc" path="res://Resources/dash.tres" id="2_2shtd"]
 
 [node name="Shop" type="Control"]
 layout_mode = 3
@@ -10,6 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_a0mxf")
+Items = Array[Object]([ExtResource("2_2shtd")])
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -86,6 +88,11 @@ placeholder_text = "
 "
 scroll_fit_content_height = true
 
+[node name="WagerMod" type="Label" parent="MarginContainer/MarginContainer/Menu/Entries/Wager Section"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+0 Wager Modifier"
+
 [node name="Banes" type="VBoxContainer" parent="MarginContainer/MarginContainer/Menu/Entries"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -100,7 +107,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 
 [node name="Clear" type="Button" parent="MarginContainer/MarginContainer/Menu/HBoxContainer"]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -109,10 +115,12 @@ theme_override_font_sizes/font_size = 25
 text = "CLEAR"
 
 [node name="Begin" type="Button" parent="MarginContainer/MarginContainer/Menu/HBoxContainer"]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 25
 text = "BEGIN"
+
+[connection signal="pressed" from="MarginContainer/MarginContainer/Menu/HBoxContainer/Clear" to="." method="OnClearPressed"]
+[connection signal="pressed" from="MarginContainer/MarginContainer/Menu/HBoxContainer/Begin" to="." method="OnBeginPressed"]
