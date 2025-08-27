@@ -83,7 +83,6 @@ public partial class GameState : Node {
         if (res.Mutation == EMutator.BOON) {
             tokens -= tier.Cost;
             boons.Add(tier.Name);
-            return;
         } else {
             wagerMod += tier.Cost;
             banes.Add(tier.Name);
