@@ -91,12 +91,28 @@ public partial class GameState : Node {
         EmitSignal(SignalName.ShopUpdate);
     }
 
+    public void clearItem(Item item) {
+        if (item.Mutation == EMutator.BOON) {
+            foreach (Tier tier in item.Tiers) {
+                boons.Remove(tier.Name);
+            }
+        } else {
+            foreach (Tier tier in item.Tiers) {
+                banes.Remove(tier.Name);
+            }
+        }
+    }
+
     // Scene Handling
     public void changeScene(PackedScene scene) {
         GetTree().ChangeSceneToPacked(scene);
     }
 
     public void play() {
+        changeScene(ResourceLoader.Load<PackedScene>("res://Scenes/shop.tscn"));
+    }
+
+    public void playRound() {
         changeScene(
             ResourceLoader.Load<PackedScene>("res://Scenes/platformer.tscn"));
     }

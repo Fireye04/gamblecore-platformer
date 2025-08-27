@@ -11,6 +11,12 @@ public partial class GameUi : Control {
                                           Callable.From<int>(setWagerVal));
     }
 
+    public override void _Ready() {
+        GameState gs = GameState.GetGSInstance();
+        setTokenVal(gs.tokens);
+        setWagerVal(gs.wager);
+    }
+
     public void setTokenVal(int val) {
         GetNode<Label>("%Total").Text = "Power Tokens: " + val;
     }

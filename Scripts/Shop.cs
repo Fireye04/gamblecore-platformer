@@ -25,14 +25,20 @@ public partial class Shop : Control {
         gs.resetValues(false);
 
         foreach (Item item in Items) {
-            ShopEntry se = new ShopEntry(item);
+
+            ShopEntry se =
+                ResourceLoader.Load<PackedScene>("res://Scenes/shop_entry.tscn")
+                    .Instantiate() as ShopEntry;
+            se.init(item);
             entries.Add(se);
+
             if (item.Mutation == EMutator.BOON) {
-                GetNode<TextEdit>("%Boons").AddChild(se);
+                GetNode<VBoxContainer>("%Boons").AddChild(se);
             } else {
-                GetNode<TextEdit>("%Banes").AddChild(se);
+                GetNode<VBoxContainer>("%Banes").AddChild(se);
             }
         }
+        updateShop();
     }
 
     public int getWager() {
@@ -62,6 +68,7 @@ public partial class Shop : Control {
 
     public void updateShop() {
         gs = GameState.GetGSInstance();
+        setTokenVal(gs.tokens);
         GetNode<Label>("%WagerMod").Text =
             "+" + gs.wagerMod + " Wager Modifier";
         foreach (ShopEntry entry in entries) {
@@ -78,6 +85,7 @@ public partial class Shop : Control {
         foreach (ShopEntry entry in entries) {
             entry.clearItem();
         }
+        updateShop();
     }
 
     private void OnBeginPressed() {
@@ -89,6 +97,6 @@ public partial class Shop : Control {
         }
         gs.wager = wager + gs.wagerMod;
         gs.tokens -= gs.wager;
-        gs.play();
+        gs.playRound();
     }
 }

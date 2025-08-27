@@ -9,7 +9,7 @@ public partial class ShopEntry : Control {
 
     public Tier curTier;
 
-    public ShopEntry(Resource item) {
+    public void init(Resource item) {
         res = (Item)item;
         clearItem();
     }
@@ -33,6 +33,8 @@ public partial class ShopEntry : Control {
     public void clearItem() {
         out_of_stock = false;
         curTier = res.Tiers[0];
+        GameState gs = GameState.GetGSInstance();
+        gs.clearItem(res);
         updateItem();
     }
 
