@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://dkckqcj1gfopc"]
+
+[ext_resource type="Script" uid="uid://dh8j5cieeastr" path="res://Scripts/Item.cs" id="1_m41s6"]
+
+[resource]
+script = ExtResource("1_m41s6")
+Name = "Dash"
+Cost = 1
+Description = "dash through the air with <shift>."
+metadata/_custom_type_script = "uid://dh8j5cieeastr"
