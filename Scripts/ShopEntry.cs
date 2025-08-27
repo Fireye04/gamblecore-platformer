@@ -25,7 +25,7 @@ public partial class ShopEntry : Control {
         } else if (index >= res.Tiers.Count - 1) {
             out_of_stock = true;
         } else {
-            curTier = res.Tiers[index];
+            curTier = res.Tiers[index + 1];
         }
         updateItem();
     }
