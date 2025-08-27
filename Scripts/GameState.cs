@@ -88,8 +88,8 @@ public partial class GameState : Node {
             banes.Add(tier.Name);
         }
         EmitSignal(SignalName.ShopUpdate);
-        GD.Print(string.Join("", boons));
-        GD.Print(string.Join("", banes));
+        // GD.Print(string.Join("", boons));
+        // GD.Print(string.Join("", banes));
     }
 
     public void clearItem(Item item) {
@@ -102,8 +102,6 @@ public partial class GameState : Node {
                 banes.Remove(tier.Name);
             }
         }
-        GD.Print(string.Join("", boons));
-        GD.Print(string.Join("", banes));
     }
 
     // Scene Handling
