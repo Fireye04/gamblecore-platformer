@@ -31,4 +31,11 @@ public partial class Player : CharacterBody2D {
         Velocity = velocity;
         MoveAndSlide();
     }
+
+    // Has hit damage object
+    private void OnHitBoxBodyShapeEntered(Godot.Rid rid, Node2D body,
+                                          int shape_index,
+                                          int local_shape_index) {
+        GD.Print("die");
+    }
 }
