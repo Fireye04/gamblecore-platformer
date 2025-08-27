@@ -5,20 +5,10 @@ using System;
 public partial class Item : Resource {
 
     [Export]
-    public string Name { get; set; }
+    public EMutator Mutation { get; set; }
 
     [Export]
-    public int Cost {
-        get; set;
-    }
-
-    [Export]
-    public string Description {
-        get; set;
-    }
-
-    [Export]
-    public EMutator Mutation {
+    public Godot.Collections.Array<Tier> Tiers {
         get; set;
     }
 
@@ -27,12 +17,10 @@ public partial class Item : Resource {
     // constructor with all default values.
     // Without a parameterless constructor, Godot will have problems
     // creating and editing your resource via the inspector.
-    public Item() : this(null, 0, null, EMutator.BOON) {}
+    public Item() : this(EMutator.BOON, null) {}
 
-    public Item(string name, int cost, string description, EMutator mutation) {
-        Name = name;
-        Cost = cost;
-        Description = description;
+    public Item(EMutator mutation, Godot.Collections.Array<Tier> tiers) {
         Mutation = mutation;
+        Tiers = tiers;
     }
 }

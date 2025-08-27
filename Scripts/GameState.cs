@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 public partial class GameState : Node {
@@ -25,12 +26,12 @@ public partial class GameState : Node {
     }
     public override void _EnterTree() { SetGSInstance(this); }
 
-    public override void _Ready() { resetValues(); }
-
     // Reset
     public void resetValues() {
         tokens = StartTokens;
         wager = 0;
+        boons = new HashSet<String>();
+        banes = new HashSet<String>();
     }
 
     // Values
@@ -45,6 +46,8 @@ public partial class GameState : Node {
         }
     }
 
+    public int tempTokens;
+
     private int Wager;
 
     public int wager {
@@ -52,6 +55,28 @@ public partial class GameState : Node {
         set {
             EmitSignal(SignalName.WagerChange, value);
             Wager = value;
+        }
+    }
+
+    public int wagerMod;
+
+    public HashSet<String> boons;
+
+    public HashSet<String> banes;
+
+    // Functions
+
+    public void buyItem(Item res, Tier tier) {
+        if (boons.Contains(tier.Name) || banes.Contains(tier.Name)) {
+            return;
+        }
+        if (res.Mutation == EMutator.BOON) {
+            tokens -= tier.Cost;
+            boons.Add(tier.Name);
+            return;
+        } else {
+            wagerMod += tier.Cost;
+            banes.Add(tier.Name);
         }
     }
 
