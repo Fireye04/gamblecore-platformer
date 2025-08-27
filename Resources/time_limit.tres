@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="Item" load_steps=5 format=3 uid="uid://chl6rbunfnc2m"]
+
+[ext_resource type="Script" uid="uid://d21x58x6qbp4n" path="res://Resources/Tier.cs" id="1_onqy5"]
+[ext_resource type="Script" uid="uid://dh8j5cieeastr" path="res://Resources/Item.cs" id="1_rt8fp"]
+
+[sub_resource type="Resource" id="Resource_xs3dn"]
+script = ExtResource("1_onqy5")
+Name = "Time Limit 1"
+Cost = 3
+Description = "You think you're fast, huh? Well prove it!"
+metadata/_custom_type_script = "uid://d21x58x6qbp4n"
+
+[sub_resource type="Resource" id="Resource_onqy5"]
+script = ExtResource("1_onqy5")
+Name = "Time Limit 2"
+Cost = 3
+Description = "Oh wow look at mr sonic over here."
+metadata/_custom_type_script = "uid://d21x58x6qbp4n"
+
+[resource]
+script = ExtResource("1_rt8fp")
+Mutation = 1
+Tiers = Array[Object]([SubResource("Resource_xs3dn"), SubResource("Resource_onqy5")])
+metadata/_custom_type_script = "uid://dh8j5cieeastr"
