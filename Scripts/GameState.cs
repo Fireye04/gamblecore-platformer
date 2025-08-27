@@ -12,6 +12,9 @@ public partial class GameState : Node {
     [Signal]
     public delegate void WagerChangeEventHandler(int wager);
 
+    [Signal]
+    public delegate void ShopUpdateEventHandler(int wagerMod);
+
     // Export Defaults
     [Export]
     public int StartTokens = 0;
@@ -27,9 +30,14 @@ public partial class GameState : Node {
     public override void _EnterTree() { SetGSInstance(this); }
 
     // Reset
-    public void resetValues() {
-        tokens = StartTokens;
+    public void resetValues(bool full) {
+        // only full reset tokens if it's a new game
+        if (full) {
+            tokens = StartTokens;
+        }
+        tempTokens = tokens;
         wager = 0;
+        wagerMod = 0;
         boons = new HashSet<String>();
         banes = new HashSet<String>();
     }
@@ -67,7 +75,9 @@ public partial class GameState : Node {
     // Functions
 
     public void buyItem(Item res, Tier tier) {
-        if (boons.Contains(tier.Name) || banes.Contains(tier.Name)) {
+        // Exit early if insufficient funds or already purchased.
+        if (boons.Contains(tier.Name) || banes.Contains(tier.Name) ||
+            tier.Cost > tokens) {
             return;
         }
         if (res.Mutation == EMutator.BOON) {
@@ -78,6 +88,7 @@ public partial class GameState : Node {
             wagerMod += tier.Cost;
             banes.Add(tier.Name);
         }
+        EmitSignal(SignalName.ShopUpdate);
     }
 
     // Scene Handling
@@ -85,8 +96,7 @@ public partial class GameState : Node {
         GetTree().ChangeSceneToPacked(scene);
     }
 
-    public void playAgain() {
-        resetValues();
+    public void play() {
         changeScene(
             ResourceLoader.Load<PackedScene>("res://Scenes/platformer.tscn"));
     }

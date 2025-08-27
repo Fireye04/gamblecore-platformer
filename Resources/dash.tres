@@ -1,10 +1,17 @@
-[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://dkckqcj1gfopc"]
+[gd_resource type="Resource" script_class="Item" load_steps=4 format=3 uid="uid://dkckqcj1gfopc"]
 
-[ext_resource type="Script" uid="uid://dh8j5cieeastr" path="res://Resources/Item.cs" id="1_m41s6"]
+[ext_resource type="Script" uid="uid://d21x58x6qbp4n" path="res://Resources/Tier.cs" id="1_e8jku"]
+[ext_resource type="Script" uid="uid://dh8j5cieeastr" path="res://Resources/Item.cs" id="2_skdik"]
 
-[resource]
-script = ExtResource("1_m41s6")
+[sub_resource type="Resource" id="Resource_twbwq"]
+script = ExtResource("1_e8jku")
 Name = "Dash"
 Cost = 1
-Description = "dash through the air with <shift>."
+Description = "Dart horizontally by pressing <shift>."
+metadata/_custom_type_script = "uid://d21x58x6qbp4n"
+
+[resource]
+script = ExtResource("2_skdik")
+Mutation = 0
+Tiers = Array[Resource]([SubResource("Resource_twbwq")])
 metadata/_custom_type_script = "uid://dh8j5cieeastr"
