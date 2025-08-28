@@ -63,8 +63,6 @@ texture_region_size = Vector2i(32, 32)
 4:2/0 = 0
 4:2/0/modulate = Color(1, 1, 1, 0.67451)
 4:2/0/physics_layer_1/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
-1:5/0 = 0
-2:5/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_t8ltx"]
 tile_size = Vector2i(32, 32)

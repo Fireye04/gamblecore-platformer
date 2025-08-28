@@ -18,6 +18,9 @@ public partial class GameState : Node {
     [Signal]
     public delegate void ShopUpdateEventHandler(int wagerMod);
 
+    [Signal]
+    public delegate void InteractionUpdateEventHandler(bool enabled, Node item);
+
     // Export Defaults
     [Export]
     public int StartTokens = 0;

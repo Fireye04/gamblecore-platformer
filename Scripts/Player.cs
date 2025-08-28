@@ -9,6 +9,7 @@ public partial class Player : CharacterBody2D {
     public AnimationPlayer anim;
     public Timer timer;
     public AnimatedSprite2D sprite;
+    public InteractionBox iBox;
 
     public bool pointingRight = true;
 
@@ -42,6 +43,7 @@ public partial class Player : CharacterBody2D {
         anim = GetNode<AnimationPlayer>("%Anim");
         timer = GetNode<Timer>("%Timer");
         sprite = GetNode<AnimatedSprite2D>("%Sprite");
+        iBox = GetNode<InteractionBox>("%InteractionBox");
     }
 
     // handle movement
@@ -90,6 +92,15 @@ public partial class Player : CharacterBody2D {
                     sprite.Play("idle");
                 }
             }
+        }
+
+        // Handle interaction prompt update on move if there are multiple in
+        // range
+        if ((velocity.X != 0 || velocity.Y != 0) &&
+            iBox.interactablesInRange.Count > 1) {
+
+            EmitSignal(GameState.SignalName.InteractionUpdate, true,
+                       iBox.find_nearest_interactable());
         }
 
         Velocity = velocity;
