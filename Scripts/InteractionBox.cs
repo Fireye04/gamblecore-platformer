@@ -9,7 +9,8 @@ public partial class InteractionBox : Area2D {
 
     public override void _Ready() { interactablesInRange.Clear(); }
 
-    private void _on_body_entered(Node2D body) {
+    private void OnAreaShapeEntered(Godot.Rid rid, Node2D body, int shape_index,
+                                    int local_shape_index) {
         if (body is IInteractable) {
             interactablesInRange.Add(body);
             EmitSignal(GameState.SignalName.InteractionUpdate, true,
@@ -17,13 +18,14 @@ public partial class InteractionBox : Area2D {
         }
     }
 
-    private void _on_body_exited(Node2D body) {
+    private void OnAreaShapeExited(Godot.Rid rid, Node2D body, int shape_index,
+                                   int local_shape_index) {
         if (body is IInteractable) {
             if (interactablesInRange.Contains(body)) {
                 interactablesInRange.Remove(body);
                 if (interactablesInRange.Count == 0) {
                     EmitSignal(GameState.SignalName.InteractionUpdate, false,
-                               new Godot.Variant());
+                               new Node());
                 }
             }
         }

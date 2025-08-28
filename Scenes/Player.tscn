@@ -88,6 +88,8 @@ animation = &"dash"
 
 [node name="InteractionBox" type="Area2D" parent="."]
 unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 8
 script = ExtResource("3_gntrk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionBox"]
@@ -121,6 +123,8 @@ libraries = {
 &"": SubResource("AnimationLibrary_dewec")
 }
 
+[connection signal="area_shape_entered" from="InteractionBox" to="InteractionBox" method="OnAreaShapeEntered"]
+[connection signal="area_shape_exited" from="InteractionBox" to="InteractionBox" method="OnAreaShapeExited"]
 [connection signal="body_shape_entered" from="HitBox" to="." method="OnHitBoxBodyShapeEntered"]
 [connection signal="area_shape_entered" from="KeyBox" to="." method="OnKeyBoxAreaShapeEntered"]
 [connection signal="timeout" from="Timer" to="." method="OnTimerTimeout"]

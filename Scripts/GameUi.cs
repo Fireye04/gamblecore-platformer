@@ -37,13 +37,14 @@ public partial class GameUi : Control {
     }
 
     public void setInteraction(bool enabled, Node newItem) {
+        // DO NOT TRY TO PASS A NON-IINTERACTABLE NODE WITH ENABLED=TRUE
         Label prompt = GetNode<Label>("%InteractionPrompt");
         if (!enabled) {
             prompt.Hide();
             return;
         }
         IInteractable item = (IInteractable)newItem;
-        prompt.Text = "Tap E to interact with : " + item.getName();
+        prompt.Text = "Tap E to " + item.getPrompt();
         prompt.Show();
     }
 }

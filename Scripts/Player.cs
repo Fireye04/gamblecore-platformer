@@ -152,4 +152,7 @@ public partial class Player : CharacterBody2D {
         GD.Print(body.Name);
         body.QueueFree();
     }
+    private void OnInteractionBoxAreaShapeEntered(Godot.Rid rid, Node2D body,
+                                                  int shape_index,
+                                                  int local_shape_index) {}
 }

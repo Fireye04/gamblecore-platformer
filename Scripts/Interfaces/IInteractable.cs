@@ -2,7 +2,8 @@ using Godot;
 using System;
 
 public interface IInteractable {
-    string getName();
+    // Tap E to + PROMPT GOES HERE
+    string getPrompt();
     void interact();
     bool canInteract();
 }

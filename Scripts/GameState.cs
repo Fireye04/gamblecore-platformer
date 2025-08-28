@@ -125,6 +125,13 @@ public partial class GameState : Node {
         }
     }
 
+    // Game Flow
+    public void winRound() {
+        tokens += wager * 2;
+        resetValues(false);
+        play();
+    }
+
     // Scene Handling
     public void changeScene(PackedScene scene) {
         GetTree().ChangeSceneToPacked(scene);

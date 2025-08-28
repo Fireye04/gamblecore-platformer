@@ -70,4 +70,5 @@ ability2={
 
 2d_physics/layer_1="Physics"
 2d_physics/layer_2="Death"
-2d_physics/layer_3="Key"
+2d_physics/layer_3="Collectable"
+2d_physics/layer_4="Interactable"
