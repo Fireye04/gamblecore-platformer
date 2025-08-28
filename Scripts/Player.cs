@@ -99,8 +99,9 @@ public partial class Player : CharacterBody2D {
         if ((velocity.X != 0 || velocity.Y != 0) &&
             iBox.interactablesInRange.Count > 1) {
 
-            EmitSignal(GameState.SignalName.InteractionUpdate, true,
-                       iBox.find_nearest_interactable());
+            GameState.GetGSInstance().EmitSignal(
+                GameState.SignalName.InteractionUpdate,
+                iBox.find_nearest_interactable());
         }
 
         Velocity = velocity;

@@ -13,8 +13,9 @@ public partial class InteractionBox : Area2D {
                                     int local_shape_index) {
         if (body is IInteractable) {
             interactablesInRange.Add(body);
-            EmitSignal(GameState.SignalName.InteractionUpdate, true,
-                       find_nearest_interactable());
+            GameState.GetGSInstance().EmitSignal(
+                GameState.SignalName.InteractionUpdate,
+                find_nearest_interactable());
         }
     }
 
@@ -24,8 +25,8 @@ public partial class InteractionBox : Area2D {
             if (interactablesInRange.Contains(body)) {
                 interactablesInRange.Remove(body);
                 if (interactablesInRange.Count == 0) {
-                    EmitSignal(GameState.SignalName.InteractionUpdate, false,
-                               new Node());
+                    GameState.GetGSInstance().EmitSignal(
+                        GameState.SignalName.InteractionUpdate, new Node());
                 }
             }
         }

@@ -15,7 +15,7 @@ public partial class GameUi : Control {
 
         GameState.GetGSInstance().Connect(
             GameState.SignalName.InteractionUpdate,
-            Callable.From<bool, Node>(setInteraction));
+            Callable.From<Node>(setInteraction));
     }
 
     public override void _Ready() {
@@ -36,10 +36,10 @@ public partial class GameUi : Control {
         GetNode<Label>("%Keys").Text = "Keys: " + val;
     }
 
-    public void setInteraction(bool enabled, Node newItem) {
+    public void setInteraction(Node newItem) {
         // DO NOT TRY TO PASS A NON-IINTERACTABLE NODE WITH ENABLED=TRUE
         Label prompt = GetNode<Label>("%InteractionPrompt");
-        if (!enabled) {
+        if (newItem is not IInteractable) {
             prompt.Hide();
             return;
         }
