@@ -68,4 +68,6 @@ ability2={
 
 [layer_names]
 
+2d_physics/layer_1="Physics"
 2d_physics/layer_2="Death"
+2d_physics/layer_3="Key"

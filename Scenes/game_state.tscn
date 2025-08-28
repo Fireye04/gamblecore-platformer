@@ -4,4 +4,4 @@
 
 [node name="GameState" type="Node"]
 script = ExtResource("1_v31h2")
-StartTokens = 10
+StartTokens = 1000
