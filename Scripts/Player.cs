@@ -115,6 +115,16 @@ public partial class Player : CharacterBody2D {
             anim.Play("Dash");
             Velocity = new Vector2(Velocity.X, 0);
         }
+
+        // Interaction
+        if (@event.IsActionPressed("interact") &&
+            iBox.interactablesInRange.Count > 0) {
+            IInteractable target =
+                (IInteractable)iBox.find_nearest_interactable();
+            if (target.canInteract()) {
+                target.interact();
+            }
+        }
     }
 
     public void setDirection(Vector2 dir) {

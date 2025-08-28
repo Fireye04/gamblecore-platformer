@@ -90,4 +90,5 @@ tile_set = SubResource("TileSet_t8ltx")
 position = Vector2(164, 12)
 
 [node name="Door" parent="." instance=ExtResource("5_k5hyf")]
-position = Vector2(-83, 27)
+position = Vector2(-81, 18)
+locked = true
