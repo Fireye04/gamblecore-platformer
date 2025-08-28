@@ -101,6 +101,7 @@ text = "Wager:"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+text = "0"
 placeholder_text = "
 "
 scroll_fit_content_height = true

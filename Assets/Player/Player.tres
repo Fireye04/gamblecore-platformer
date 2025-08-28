@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=15 format=3 uid="uid://cnvpel3v5e4ej"]
+[gd_resource type="SpriteFrames" load_steps=13 format=3 uid="uid://cnvpel3v5e4ej"]
 
 [ext_resource type="Texture2D" uid="uid://cowe4ao32m5c6" path="res://Assets/Player/lil-guy.png" id="1_jog0t"]
 [ext_resource type="Texture2D" uid="uid://olsjjjc8sxk4" path="res://Assets/Player/lil-guy-anims.png" id="2_a7cto"]
@@ -34,14 +34,6 @@ region = Rect2(32, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ofkxl"]
 atlas = ExtResource("2_a7cto")
 region = Rect2(128, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tae07"]
-atlas = ExtResource("2_a7cto")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6osy0"]
-atlas = ExtResource("2_a7cto")
-region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m4n3b"]
 atlas = ExtResource("2_a7cto")
@@ -96,17 +88,6 @@ animations = [{
 "loop": false,
 "name": &"jump",
 "speed": 7.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tae07")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6osy0")
-}],
-"loop": true,
-"name": &"run_left",
-"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
