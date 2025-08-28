@@ -97,6 +97,6 @@ animations = [{
 "texture": SubResource("AtlasTexture_yn12j")
 }],
 "loop": true,
-"name": &"run_right",
+"name": &"run",
 "speed": 5.0
 }]
