@@ -101,6 +101,7 @@ public partial class Player : CharacterBody2D {
         // TODO: If cannot dash, communicate to player
         if (@event.IsActionPressed("dash") && canDash) {
             anim.Play("Dash");
+            Velocity = new Vector2(Velocity.X, 0);
         }
     }
 
