@@ -11,7 +11,6 @@ public partial class Player : CharacterBody2D {
     public AnimatedSprite2D sprite;
 
     public bool pointingRight = true;
-    public bool jumping = false;
 
     // BOON Handlers
     public int getTotalDoubleJumps() {
@@ -64,11 +63,7 @@ public partial class Player : CharacterBody2D {
             // Add the gravity.
             if (!IsOnFloor()) {
                 velocity += GetGravity() * (float)delta;
-                if (!jumping) {
-                    jumping = true;
-                }
-            } else if (jumping) {
-                jumping = false;
+                sprite.Play("falling");
             }
 
             // Handle Jump.
@@ -78,7 +73,6 @@ public partial class Player : CharacterBody2D {
                     jumpsLeft -= 1;
                 }
                 velocity.Y = JumpVelocity;
-                jumping = true;
             }
 
             Vector2 direction = Input.GetVector("left", "right", "up", "down");
@@ -87,8 +81,14 @@ public partial class Player : CharacterBody2D {
 
                 // Handle walk anims
                 setDirection(direction);
+                if (IsOnFloor()) {
+                    sprite.Play("run");
+                }
             } else {
                 velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+                if (IsOnFloor()) {
+                    sprite.Play("idle");
+                }
             }
         }
 
