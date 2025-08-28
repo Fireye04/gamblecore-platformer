@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="Item" load_steps=5 format=3 uid="uid://nbdsykxl0m4e"]
+
+[ext_resource type="Script" uid="uid://dh8j5cieeastr" path="res://Resources/Item.cs" id="1_qrka7"]
+[ext_resource type="Script" uid="uid://d21x58x6qbp4n" path="res://Resources/Tier.cs" id="1_yis38"]
+
+[sub_resource type="Resource" id="Resource_2ers4"]
+script = ExtResource("1_yis38")
+Name = "Double Jump 1"
+Cost = 2
+Description = "BOING"
+metadata/_custom_type_script = "uid://d21x58x6qbp4n"
+
+[sub_resource type="Resource" id="Resource_aclhm"]
+script = ExtResource("1_yis38")
+Name = "Double Jump 2"
+Cost = 4
+Description = "BOING BUT MORE"
+metadata/_custom_type_script = "uid://d21x58x6qbp4n"
+
+[resource]
+script = ExtResource("1_qrka7")
+Mutation = 0
+Tiers = Array[Object]([SubResource("Resource_2ers4"), SubResource("Resource_aclhm")])
+metadata/_custom_type_script = "uid://dh8j5cieeastr"

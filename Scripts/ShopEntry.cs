@@ -16,13 +16,17 @@ public partial class ShopEntry : Control {
 
     private void OnBuyPressed() {
 
+        if (res.Mutation == EMutator.BOON &&
+            curTier.Cost > GameState.GetGSInstance().tokens) {
+            // TODO: Give feedback
+            return;
+        }
+
         GameState.GetGSInstance().buyItem(res, curTier);
 
         int index = res.Tiers.IndexOf(curTier);
 
-        if (curTier.Cost > GameState.GetGSInstance().tokens) {
-
-        } else if (index >= res.Tiers.Count - 1) {
+        if (index >= res.Tiers.Count - 1) {
             out_of_stock = true;
         } else {
             curTier = res.Tiers[index + 1];
@@ -47,8 +51,9 @@ public partial class ShopEntry : Control {
             GetNode<Label>("%Cost").Text = "+" + curTier.Cost + " Wager";
         }
 
-        // Disables buy button if out of stock or insufficient funds
+        // Disables buy button if out of stock or insufficient funds (for boons)
         GetNode<Button>("%Buy").Disabled =
-            out_of_stock || curTier.Cost > GameState.GetGSInstance().tokens;
+            out_of_stock || (res.Mutation == EMutator.BOON &&
+                             curTier.Cost > GameState.GetGSInstance().tokens);
     }
 }

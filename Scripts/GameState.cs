@@ -27,7 +27,11 @@ public partial class GameState : Node {
     private void SetGSInstance(GameState newGSInstance) {
         instance = newGSInstance;
     }
-    public override void _EnterTree() { SetGSInstance(this); }
+    public override void _EnterTree() {
+        SetGSInstance(this);
+        boons = new HashSet<String>();
+        banes = new HashSet<String>();
+    }
 
     // Reset
     public void resetValues(bool full) {
@@ -75,20 +79,21 @@ public partial class GameState : Node {
     // Functions
 
     public void buyItem(Item res, Tier tier) {
-        // Exit early if insufficient funds or already purchased.
+        // Exit early if boon insufficient funds or already purchased.
         if (boons.Contains(tier.Name) || banes.Contains(tier.Name) ||
-            tier.Cost > tokens) {
+            (res.Mutation == EMutator.BOON && tier.Cost > tokens)) {
             return;
         }
         if (res.Mutation == EMutator.BOON) {
             tokens -= tier.Cost;
             boons.Add(tier.Name);
-            return;
         } else {
             wagerMod += tier.Cost;
             banes.Add(tier.Name);
         }
         EmitSignal(SignalName.ShopUpdate);
+        // GD.Print(string.Join("", boons));
+        // GD.Print(string.Join("", banes));
     }
 
     public void clearItem(Item item) {
