@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://lf34vbeemjy2"]
+[gd_scene load_steps=5 format=3 uid="uid://lf34vbeemjy2"]
 
 [ext_resource type="Script" uid="uid://b82lj3b7neqpo" path="res://Scripts/Shop.cs" id="1_a0mxf"]
 [ext_resource type="Resource" uid="uid://dkckqcj1gfopc" path="res://Resources/dash.tres" id="2_2shtd"]
 [ext_resource type="Resource" uid="uid://chl6rbunfnc2m" path="res://Resources/time_limit.tres" id="3_io27d"]
+[ext_resource type="Resource" uid="uid://nbdsykxl0m4e" path="res://Resources/double-jump.tres" id="4_fdj0q"]
 
 [node name="Shop" type="Control"]
 layout_mode = 3
@@ -12,7 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_a0mxf")
-Items = Array[Object]([ExtResource("2_2shtd"), ExtResource("3_io27d")])
+Items = Array[Object]([ExtResource("2_2shtd"), ExtResource("4_fdj0q"), ExtResource("3_io27d")])
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -74,6 +75,8 @@ horizontal_scroll_mode = 0
 [node name="Boons" type="VBoxContainer" parent="MarginContainer/MarginContainer/Menu/Entries/BoonList/Scroll"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Wager Section" type="VBoxContainer" parent="MarginContainer/MarginContainer/Menu/Entries"]
 layout_mode = 2
@@ -128,8 +131,8 @@ horizontal_scroll_mode = 0
 [node name="Banes" type="VBoxContainer" parent="MarginContainer/MarginContainer/Menu/Entries/BaneList/Scroll"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/MarginContainer/Menu"]
 layout_mode = 2

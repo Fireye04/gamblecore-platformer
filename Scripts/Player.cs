@@ -1,10 +1,37 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Player : CharacterBody2D {
     public const float Speed = 300.0f;
     public const float JumpVelocity = -400.0f;
 
+    // BOON Handlers
+    public int getTotalDoubleJumps() {
+        HashSet<string> bs = GameState.GetGSInstance().boons;
+        if (bs.Contains("Double Jump 2")) {
+            return 2;
+        } else if (bs.Contains("Double Jump 1")) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public int jumpsLeft;
+
+    public bool dashEnabled() {
+        HashSet<string> bs = GameState.GetGSInstance().boons;
+        return bs.Contains("Dash");
+    }
+
+    public bool canDash;
+
+    public override void _Ready() {
+        jumpsLeft = getTotalDoubleJumps();
+        canDash = dashEnabled();
+    }
+
+    // handle movement
     public override void _PhysicsProcess(double delta) {
         Vector2 velocity = Velocity;
 
@@ -32,10 +59,17 @@ public partial class Player : CharacterBody2D {
         MoveAndSlide();
     }
 
+    public void dash() {}
+
+    public void endDash() {}
+
     // Has hit damage object
     private void OnHitBoxBodyShapeEntered(Godot.Rid rid, Node2D body,
                                           int shape_index,
                                           int local_shape_index) {
-        GD.Print("die");
+
+        GameState gs = GameState.GetGSInstance();
+        gs.resetValues(false);
+        gs.CallDeferred(GameState.MethodName.play);
     }
 }
