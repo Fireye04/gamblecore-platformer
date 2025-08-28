@@ -27,7 +27,11 @@ public partial class GameState : Node {
     private void SetGSInstance(GameState newGSInstance) {
         instance = newGSInstance;
     }
-    public override void _EnterTree() { SetGSInstance(this); }
+    public override void _EnterTree() {
+        SetGSInstance(this);
+        boons = new HashSet<String>();
+        banes = new HashSet<String>();
+    }
 
     // Reset
     public void resetValues(bool full) {

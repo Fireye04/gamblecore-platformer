@@ -72,7 +72,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_oow65")
 }],
 "loop": true,
-"name": &"fallling",
+"name": &"falling",
 "speed": 10.0
 }, {
 "frames": [{
@@ -93,9 +93,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ofkxl")
 }],
-"loop": true,
+"loop": false,
 "name": &"jump",
-"speed": 5.0
+"speed": 7.0
 }, {
 "frames": [{
 "duration": 1.0,

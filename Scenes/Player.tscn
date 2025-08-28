@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cdjd7e3crf550"]
+[gd_scene load_steps=9 format=3 uid="uid://cdjd7e3crf550"]
 
 [ext_resource type="Script" uid="uid://bxusdq0p2nu6r" path="res://Scripts/Player.cs" id="1_kpjcp"]
 [ext_resource type="SpriteFrames" uid="uid://cnvpel3v5e4ej" path="res://Assets/Player/Player.tres" id="2_kyqiw"]
@@ -9,70 +9,66 @@ radius = 6.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kyqiw"]
 radius = 6.0
 
-[sub_resource type="Animation" id="Animation_gntrk"]
-resource_name = "Idle"
-tracks/0/type = "value"
+[sub_resource type="Animation" id="Animation_5ixxa"]
+resource_name = "Dash"
+tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/path = NodePath("AnimatedSprite2D")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"idle"]
+"values": [{
+"args": [&"dash", 1.0, false],
+"method": &"play"
+}]
 }
-
-[sub_resource type="Animation" id="Animation_kyqiw"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"jumping"]
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"dash"
+}, {
+"args": [],
+"method": &"endDash"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_dewec"]
 resource_name = "Jump"
-tracks/0/type = "value"
+tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/path = NodePath("AnimatedSprite2D")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.566667),
+"times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [&"jump", &"jumping"]
+"values": [{
+"args": [&"jump", 1.0, false],
+"method": &"play"
+}, {
+"args": [&"falling", 1.0, false],
+"method": &"play"
+}]
 }
 
-[sub_resource type="Animation" id="Animation_5ixxa"]
-resource_name = "Dash"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"dash"]
-}
+[sub_resource type="Animation" id="Animation_kyqiw"]
+length = 0.001
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dewec"]
 _data = {
 &"Dash": SubResource("Animation_5ixxa"),
-&"Idle": SubResource("Animation_gntrk"),
 &"Jump": SubResource("Animation_dewec"),
 &"RESET": SubResource("Animation_kyqiw")
 }
@@ -83,7 +79,8 @@ script = ExtResource("1_kpjcp")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = ExtResource("2_kyqiw")
-animation = &"jumping"
+animation = &"jump"
+frame_progress = 0.643128
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_kpjcp")
@@ -100,11 +97,13 @@ shape = SubResource("CapsuleShape2D_kyqiw")
 
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true
+one_shot = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="Anim" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
 libraries = {
 &"": SubResource("AnimationLibrary_dewec")
 }
-autoplay = "Idle"
 
 [connection signal="body_shape_entered" from="HitBox" to="." method="OnHitBoxBodyShapeEntered"]
+[connection signal="timeout" from="Timer" to="." method="OnTimerTimeout"]

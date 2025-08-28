@@ -6,6 +6,9 @@ public partial class Player : CharacterBody2D {
     public const float Speed = 300.0f;
     public const float JumpVelocity = -400.0f;
 
+    public AnimationPlayer anim;
+    public Timer timer;
+
     // BOON Handlers
     public int getTotalDoubleJumps() {
         HashSet<string> bs = GameState.GetGSInstance().boons;
@@ -26,9 +29,13 @@ public partial class Player : CharacterBody2D {
 
     public bool canDash;
 
+    public bool dashing;
+
     public override void _Ready() {
         jumpsLeft = getTotalDoubleJumps();
         canDash = dashEnabled();
+        anim = GetNode<AnimationPlayer>("%Anim");
+        timer = GetNode<Timer>("%Timer");
     }
 
     // handle movement
@@ -59,9 +66,20 @@ public partial class Player : CharacterBody2D {
         MoveAndSlide();
     }
 
-    public void dash() {}
+    public void dash() {
+        if (canDash) {
+            dashing = true;
+        }
+        // TODO: If cannot dash, communicate to player
+    }
 
-    public void endDash() {}
+    public void endDash() {
+        dashing = false;
+        timer.Start();
+    }
+
+    // Dash timer finished
+    private void OnTimerTimeout() { canDash = true; }
 
     // Has hit damage object
     private void OnHitBoxBodyShapeEntered(Godot.Rid rid, Node2D body,
