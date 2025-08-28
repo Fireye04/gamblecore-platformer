@@ -66,15 +66,9 @@ public partial class Player : CharacterBody2D {
                 velocity += GetGravity() * (float)delta;
                 if (!jumping) {
                     jumping = true;
-                    if (pointingRight) {
-                        anim.Play("Jump");
-                    } else {
-                        anim.Play("Jump_Left");
-                    }
                 }
             } else if (jumping) {
                 jumping = false;
-                sprite.Play("run", 1, !pointingRight);
             }
 
             // Handle Jump.
@@ -84,32 +78,17 @@ public partial class Player : CharacterBody2D {
                     jumpsLeft -= 1;
                 }
                 velocity.Y = JumpVelocity;
-                if (pointingRight) {
-                    anim.Play("Jump");
-                } else {
-                    anim.Play("Jump_Left");
-                }
                 jumping = true;
             }
 
-            // Get the input direction and handle the movement/deceleration.
-            // As good practice, you should replace UI actions with custom
-            // gameplay actions.
             Vector2 direction = Input.GetVector("left", "right", "up", "down");
             if (direction != Vector2.Zero) {
                 velocity.X = direction.X * Speed;
 
                 // Handle walk anims
-                bool ndir = velocity.X > 0;
-                if (pointingRight != ndir && IsOnFloor()) {
-                    sprite.Play("run", 1, !ndir);
-                }
-                pointingRight = ndir;
+                setDirection(direction);
             } else {
                 velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-                if (sprite.Animation != "idle" && IsOnFloor()) {
-                    sprite.Play("idle", 1, !pointingRight);
-                }
             }
         }
 
@@ -121,15 +100,19 @@ public partial class Player : CharacterBody2D {
     public override void _Input(InputEvent @event) {
         // TODO: If cannot dash, communicate to player
         if (@event.IsActionPressed("dash") && canDash) {
-            if (pointingRight) {
-                anim.Play("Dash");
-            } else {
-                anim.Play("Dash_Left");
-            }
+            anim.Play("Dash");
         }
     }
 
-    public void dash() { dashing = true; }
+    public void setDirection(Vector2 dir) {
+        pointingRight = dir.X > 0;
+        sprite.FlipH = !pointingRight;
+    }
+
+    public void dash() {
+        dashing = true;
+        canDash = false;
+    }
 
     public void endDash() {
         dashing = false;
