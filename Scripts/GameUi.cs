@@ -9,6 +9,9 @@ public partial class GameUi : Control {
 
         GameState.GetGSInstance().Connect(GameState.SignalName.WagerChange,
                                           Callable.From<int>(setWagerVal));
+
+        GameState.GetGSInstance().Connect(GameState.SignalName.KeyChange,
+                                          Callable.From<int>(setKeyVal));
     }
 
     public override void _Ready() {
@@ -23,5 +26,9 @@ public partial class GameUi : Control {
 
     public void setWagerVal(int val) {
         GetNode<Label>("%Wager").Text = "Current Wager: " + val;
+    }
+
+    public void setKeyVal(int val) {
+        GetNode<Label>("%Keys").Text = "Keys: " + val;
     }
 }

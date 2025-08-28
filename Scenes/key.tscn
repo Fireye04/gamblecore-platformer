@@ -57,7 +57,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_up4cr"]
 size = Vector2(26, 20)
 
-[node name="Key" type="Node2D"]
+[node name="Collider" type="Area2D"]
+collision_layer = 4
+collision_mask = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
@@ -65,9 +67,5 @@ sprite_frames = SubResource("SpriteFrames_4kguk")
 animation = &"Key"
 frame_progress = 0.760826
 
-[node name="Collider" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Collider"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_up4cr")

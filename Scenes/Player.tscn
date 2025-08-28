@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cdjd7e3crf550"]
+[gd_scene load_steps=8 format=3 uid="uid://cdjd7e3crf550"]
 
 [ext_resource type="Script" uid="uid://bxusdq0p2nu6r" path="res://Scripts/Player.cs" id="1_kpjcp"]
 [ext_resource type="SpriteFrames" uid="uid://cnvpel3v5e4ej" path="res://Assets/Player/Player.tres" id="2_kyqiw"]
@@ -64,14 +64,10 @@ tracks/0/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_kyqiw"]
-length = 0.001
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dewec"]
 _data = {
 &"Dash": SubResource("Animation_5ixxa"),
-&"Jump": SubResource("Animation_dewec"),
-&"RESET": SubResource("Animation_kyqiw")
+&"Jump": SubResource("Animation_dewec")
 }
 
 [node name="Player" type="CharacterBody2D"]
@@ -96,6 +92,13 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 shape = SubResource("CapsuleShape2D_kyqiw")
 
+[node name="KeyBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KeyBox"]
+shape = SubResource("CapsuleShape2D_kyqiw")
+
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true
 one_shot = true
@@ -108,4 +111,5 @@ libraries = {
 }
 
 [connection signal="body_shape_entered" from="HitBox" to="." method="OnHitBoxBodyShapeEntered"]
+[connection signal="area_shape_entered" from="KeyBox" to="." method="OnKeyBoxAreaShapeEntered"]
 [connection signal="timeout" from="Timer" to="." method="OnTimerTimeout"]

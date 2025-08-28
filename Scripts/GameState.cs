@@ -13,6 +13,9 @@ public partial class GameState : Node {
     public delegate void WagerChangeEventHandler(int wager);
 
     [Signal]
+    public delegate void KeyChangeEventHandler(int keys);
+
+    [Signal]
     public delegate void ShopUpdateEventHandler(int wagerMod);
 
     // Export Defaults
@@ -44,6 +47,7 @@ public partial class GameState : Node {
         wagerMod = 0;
         boons = new HashSet<String>();
         banes = new HashSet<String>();
+        keys = 0;
     }
 
     // Values
@@ -75,6 +79,16 @@ public partial class GameState : Node {
     public HashSet<String> boons;
 
     public HashSet<String> banes;
+
+    private int Keys;
+
+    public int keys {
+        get { return Keys; }
+        set {
+            EmitSignal(SignalName.KeyChange, value);
+            Keys = value;
+        }
+    }
 
     // Functions
 

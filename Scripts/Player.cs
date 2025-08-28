@@ -127,9 +127,17 @@ public partial class Player : CharacterBody2D {
                                           int shape_index,
                                           int local_shape_index) {
 
-        GD.Print(body.Name);
         GameState gs = GameState.GetGSInstance();
         gs.resetValues(false);
         gs.CallDeferred(GameState.MethodName.play);
+    }
+
+    // Has hit key
+    private void OnKeyBoxAreaShapeEntered(Godot.Rid rid, Node2D body,
+                                          int shape_index,
+                                          int local_shape_index) {
+        GameState.GetGSInstance().keys += 1;
+        GD.Print(body.Name);
+        body.QueueFree();
     }
 }

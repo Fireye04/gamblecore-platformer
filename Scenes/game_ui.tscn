@@ -30,3 +30,8 @@ text = "Power Tokens: 0"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Curent Wager: 0"
+
+[node name="Keys" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Keys: 0"
