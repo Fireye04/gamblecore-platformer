@@ -16,6 +16,9 @@ public partial class GameState : Node {
     public delegate void KeyChangeEventHandler(int keys);
 
     [Signal]
+    public delegate void LivesChangeEventHandler(int lives);
+
+    [Signal]
     public delegate void ShopUpdateEventHandler(int wagerMod);
 
     [Signal]
@@ -77,6 +80,7 @@ public partial class GameState : Node {
         timeLeft = timeLimit;
         keys = 0;
         doorsUnlocked = 0;
+        lives = 1;
     }
 
     // Values
@@ -115,6 +119,16 @@ public partial class GameState : Node {
     public double timeLeft;
 
     public int doorsUnlocked;
+
+    private int Lives;
+
+    public int lives {
+        get { return Lives; }
+        set {
+            EmitSignal(SignalName.LivesChange, value);
+            Lives = value;
+        }
+    }
 
     private int Keys;
 

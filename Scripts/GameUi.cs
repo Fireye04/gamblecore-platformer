@@ -14,6 +14,9 @@ public partial class GameUi : Control {
         GameState.GetGSInstance().Connect(GameState.SignalName.KeyChange,
                                           Callable.From<int>(setKeyVal));
 
+        GameState.GetGSInstance().Connect(GameState.SignalName.LivesChange,
+                                          Callable.From<int>(setLivesVal));
+
         GameState.GetGSInstance().Connect(
             GameState.SignalName.InteractionUpdate,
             Callable.From<Node>(setInteraction));
@@ -29,6 +32,10 @@ public partial class GameUi : Control {
 
     public void setKeyVal(int val) {
         GetNode<Label>("%Keys").Text = "Keys: " + val;
+    }
+
+    public void setLivesVal(int val) {
+        GetNode<Label>("%Lives").Text = "Lives: " + val;
     }
 
     // Interaction Prompt

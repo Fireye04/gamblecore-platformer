@@ -3,6 +3,10 @@ using System;
 using System.Collections.Generic;
 
 public partial class Player : CharacterBody2D {
+
+    [Export]
+    public Node2D Spawnpoint;
+
     public const float Speed = 200.0f;
     public const float JumpVelocity = -300.0f;
 
@@ -44,6 +48,7 @@ public partial class Player : CharacterBody2D {
         timer = GetNode<Timer>("%Timer");
         sprite = GetNode<AnimatedSprite2D>("%Sprite");
         iBox = GetNode<InteractionBox>("%InteractionBox");
+        Transform = Spawnpoint.Transform;
     }
 
     // handle movement
@@ -153,7 +158,13 @@ public partial class Player : CharacterBody2D {
                                           int shape_index,
                                           int local_shape_index) {
 
-        GameState.GetGSInstance().loseRound();
+        GameState gs = GameState.GetGSInstance();
+        gs.lives -= 1;
+        if (gs.lives > 0) {
+            Transform = Spawnpoint.Transform;
+        } else {
+            gs.loseRound();
+        }
     }
 
     // Has hit key
