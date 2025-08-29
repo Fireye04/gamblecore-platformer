@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-public partial class GameState : Node {
+public partial class GameState : Node
+{
 
     // Signal declaration
     [Signal]
@@ -56,19 +57,23 @@ public partial class GameState : Node {
 
     public static GameState GetGSInstance() { return instance; }
 
-    private void SetGSInstance(GameState newGSInstance) {
+    private void SetGSInstance(GameState newGSInstance)
+    {
         instance = newGSInstance;
     }
-    public override void _EnterTree() {
+    public override void _EnterTree()
+    {
         SetGSInstance(this);
         boons = new HashSet<String>();
         banes = new HashSet<String>();
     }
 
     // Reset
-    public void resetValues(bool full) {
+    public void resetValues(bool full)
+    {
         // only full reset tokens if it's a new game
-        if (full) {
+        if (full)
+        {
             tokens = StartTokens;
         }
         tempTokens = tokens;
@@ -87,9 +92,11 @@ public partial class GameState : Node {
 
     private int Tokens;
 
-    public int tokens {
+    public int tokens
+    {
         get { return Tokens; }
-        set {
+        set
+        {
             EmitSignal(SignalName.TokenChange, value);
             Tokens = value;
         }
@@ -99,9 +106,11 @@ public partial class GameState : Node {
 
     private int Wager;
 
-    public int wager {
+    public int wager
+    {
         get { return Wager; }
-        set {
+        set
+        {
             EmitSignal(SignalName.WagerChange, value);
             Wager = value;
         }
@@ -122,9 +131,11 @@ public partial class GameState : Node {
 
     private int Lives;
 
-    public int lives {
+    public int lives
+    {
         get { return Lives; }
-        set {
+        set
+        {
             EmitSignal(SignalName.LivesChange, value);
             Lives = value;
         }
@@ -132,9 +143,11 @@ public partial class GameState : Node {
 
     private int Keys;
 
-    public int keys {
+    public int keys
+    {
         get { return Keys; }
-        set {
+        set
+        {
             EmitSignal(SignalName.KeyChange, value);
             Keys = value;
         }
@@ -142,16 +155,21 @@ public partial class GameState : Node {
 
     // Functions
 
-    public void buyItem(Item res, Tier tier) {
+    public void buyItem(Item res, Tier tier)
+    {
         // Exit early if boon insufficient funds or already purchased.
         if (boons.Contains(tier.Name) || banes.Contains(tier.Name) ||
-            (res.Mutation == EMutator.BOON && tier.Cost > tokens)) {
+            (res.Mutation == EMutator.BOON && tier.Cost > tokens))
+        {
             return;
         }
-        if (res.Mutation == EMutator.BOON) {
+        if (res.Mutation == EMutator.BOON)
+        {
             tokens -= tier.Cost;
             boons.Add(tier.Name);
-        } else {
+        }
+        else
+        {
             wagerMod += tier.Cost;
             banes.Add(tier.Name);
         }
@@ -160,13 +178,19 @@ public partial class GameState : Node {
         // GD.Print(string.Join("", banes));
     }
 
-    public void clearItem(Item item) {
-        if (item.Mutation == EMutator.BOON) {
-            foreach (Tier tier in item.Tiers) {
+    public void clearItem(Item item)
+    {
+        if (item.Mutation == EMutator.BOON)
+        {
+            foreach (Tier tier in item.Tiers)
+            {
                 boons.Remove(tier.Name);
             }
-        } else {
-            foreach (Tier tier in item.Tiers) {
+        }
+        else
+        {
+            foreach (Tier tier in item.Tiers)
+            {
                 banes.Remove(tier.Name);
             }
         }
@@ -176,28 +200,33 @@ public partial class GameState : Node {
 
     public double getTimeMult() { return timeLeft / 10; }
 
-    public void winRound() {
+    public void winRound()
+    {
         tokens += (int)Double.Round(wager * getTimeMult());
         resetValues(false);
         CallDeferred(MethodName.play);
     }
 
-    public void loseRound() {
+    public void loseRound()
+    {
         resetValues(false);
         CallDeferred(MethodName.play);
     }
 
     // Scene Handling
-    public void changeScene(PackedScene scene) {
+    public void changeScene(PackedScene scene)
+    {
         GetTree().ChangeSceneToPacked(scene);
     }
 
-    public void play() {
+    public void play()
+    {
         changeScene(ResourceLoader.Load<PackedScene>("res://Scenes/shop.tscn"));
     }
 
-    public void playRound() {
+    public void playRound()
+    {
         changeScene(
-            ResourceLoader.Load<PackedScene>("res://Scenes/platformer.tscn"));
+            ResourceLoader.Load<PackedScene>("res://Scenes/game_level.tscn"));
     }
 }
