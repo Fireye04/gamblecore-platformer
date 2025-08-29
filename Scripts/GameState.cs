@@ -80,7 +80,7 @@ public partial class GameState : Node {
         timeLeft = timeLimit;
         keys = 0;
         doorsUnlocked = 0;
-        lives = 1;
+        lives = 2;
     }
 
     // Values

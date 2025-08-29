@@ -75,7 +75,8 @@ sources/0 = SubResource("TileSetAtlasSource_gk7h0")
 
 [node name="Platformer" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource("2_or1io")]
+[node name="Player" parent="." node_paths=PackedStringArray("Spawnpoint") instance=ExtResource("2_or1io")]
+Spawnpoint = NodePath("../spawnpoint")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -92,3 +93,5 @@ position = Vector2(164, 12)
 [node name="Door" parent="." instance=ExtResource("5_k5hyf")]
 position = Vector2(-81, 18)
 locked = true
+
+[node name="spawnpoint" type="Node2D" parent="."]

@@ -71,6 +71,7 @@ public partial class GameUi : Control {
         GameState gs = GameState.GetGSInstance();
         setTokenVal(gs.tokens);
         setWagerVal(gs.wager);
+        setLivesVal(gs.lives);
         clock = GetNode<Label>("%Clock");
         if (gs.banes.Contains("Time Limit 2")) {
             timeLeft = 30;
