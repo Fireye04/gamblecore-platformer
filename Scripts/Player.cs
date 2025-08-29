@@ -13,7 +13,7 @@ public partial class Player : CharacterBody2D
 
     // Time after leaving the ground that jumps are accepted. For my own sanity.
     [Export]
-    protected float CoyoteTime = 0.25f;
+    protected float CoyoteTime = 0.1f;
 
     private ulong LastGroundedTime;
 
