@@ -111,6 +111,7 @@ public partial class Player : CharacterBody2D
                     jumpsLeft -= 1;
                 }
                 velocity.Y = JumpVelocity;
+                LastGroundedTime = 0;
             }
 
             Vector2 direction = Input.GetVector("left", "right", "up", "down");
