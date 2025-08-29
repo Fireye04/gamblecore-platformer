@@ -9,6 +9,7 @@ public partial class Player : CharacterBody2D {
     public AnimationPlayer anim;
     public Timer timer;
     public AnimatedSprite2D sprite;
+    public InteractionBox iBox;
 
     public bool pointingRight = true;
 
@@ -42,6 +43,7 @@ public partial class Player : CharacterBody2D {
         anim = GetNode<AnimationPlayer>("%Anim");
         timer = GetNode<Timer>("%Timer");
         sprite = GetNode<AnimatedSprite2D>("%Sprite");
+        iBox = GetNode<InteractionBox>("%InteractionBox");
     }
 
     // handle movement
@@ -92,6 +94,16 @@ public partial class Player : CharacterBody2D {
             }
         }
 
+        // Handle interaction prompt update on move if there are multiple in
+        // range
+        if ((velocity.X != 0 || velocity.Y != 0) &&
+            iBox.interactablesInRange.Count > 1) {
+
+            GameState.GetGSInstance().EmitSignal(
+                GameState.SignalName.InteractionUpdate,
+                iBox.find_nearest_interactable());
+        }
+
         Velocity = velocity;
         MoveAndSlide();
     }
@@ -101,6 +113,20 @@ public partial class Player : CharacterBody2D {
         // TODO: If cannot dash, communicate to player
         if (@event.IsActionPressed("dash") && canDash) {
             anim.Play("Dash");
+            Velocity = new Vector2(Velocity.X, 0);
+        }
+
+        // Interaction
+        if (@event.IsActionPressed("interact") &&
+            iBox.interactablesInRange.Count > 0) {
+            IInteractable target =
+                (IInteractable)iBox.find_nearest_interactable();
+            if (target.canInteract()) {
+                target.interact();
+                GameState.GetGSInstance().EmitSignal(
+                    GameState.SignalName.InteractionUpdate,
+                    iBox.find_nearest_interactable());
+            }
         }
     }
 
@@ -127,8 +153,17 @@ public partial class Player : CharacterBody2D {
                                           int shape_index,
                                           int local_shape_index) {
 
-        GameState gs = GameState.GetGSInstance();
-        gs.resetValues(false);
-        gs.CallDeferred(GameState.MethodName.play);
+        GameState.GetGSInstance().loseRound();
     }
+
+    // Has hit key
+    private void OnKeyBoxAreaShapeEntered(Godot.Rid rid, Node2D body,
+                                          int shape_index,
+                                          int local_shape_index) {
+        GameState.GetGSInstance().keys += 1;
+        body.QueueFree();
+    }
+    private void OnInteractionBoxAreaShapeEntered(Godot.Rid rid, Node2D body,
+                                                  int shape_index,
+                                                  int local_shape_index) {}
 }

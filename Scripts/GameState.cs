@@ -13,11 +13,20 @@ public partial class GameState : Node {
     public delegate void WagerChangeEventHandler(int wager);
 
     [Signal]
+    public delegate void KeyChangeEventHandler(int keys);
+
+    [Signal]
     public delegate void ShopUpdateEventHandler(int wagerMod);
+
+    [Signal]
+    public delegate void InteractionUpdateEventHandler(Node item);
 
     // Export Defaults
     [Export]
     public int StartTokens = 0;
+
+    [Export]
+    public int DefaultTime = 90;
 
     // Singleton Handler
     private static GameState instance;
@@ -44,6 +53,9 @@ public partial class GameState : Node {
         wagerMod = 0;
         boons = new HashSet<String>();
         banes = new HashSet<String>();
+        timeLimit = DefaultTime;
+        timeLeft = timeLimit;
+        keys = 0;
     }
 
     // Values
@@ -76,6 +88,21 @@ public partial class GameState : Node {
 
     public HashSet<String> banes;
 
+    // Seconds
+    public double timeLimit;
+
+    public double timeLeft;
+
+    private int Keys;
+
+    public int keys {
+        get { return Keys; }
+        set {
+            EmitSignal(SignalName.KeyChange, value);
+            Keys = value;
+        }
+    }
+
     // Functions
 
     public void buyItem(Item res, Tier tier) {
@@ -106,6 +133,18 @@ public partial class GameState : Node {
                 banes.Remove(tier.Name);
             }
         }
+    }
+
+    // Game Flow
+    public void winRound() {
+        tokens += wager * 2;
+        resetValues(false);
+        CallDeferred(MethodName.play);
+    }
+
+    public void loseRound() {
+        resetValues(false);
+        CallDeferred(MethodName.play);
     }
 
     // Scene Handling
