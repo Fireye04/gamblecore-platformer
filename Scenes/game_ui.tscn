@@ -36,6 +36,11 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Keys: 0"
 
+[node name="Lives" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Lives: 0"
+
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 7
