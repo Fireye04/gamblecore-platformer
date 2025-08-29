@@ -22,11 +22,31 @@ public partial class GameState : Node {
     public delegate void InteractionUpdateEventHandler(Node item);
 
     // Export Defaults
+    [ExportGroup("Defaults")]
     [Export]
     public int StartTokens = 0;
 
     [Export]
     public int DefaultTime = 90;
+
+    [ExportGroup("Banes")]
+
+    [ExportSubgroup("Time Limit")]
+
+    [Export]
+    public int timelimit1 = 60;
+
+    [Export]
+    public int timelimit2 = 30;
+
+    [ExportGroup("Boons")]
+    [ExportSubgroup("Extra Time")]
+
+    [Export]
+    public int extratime1 = 10;
+
+    [Export]
+    public int extratime2 = 20;
 
     // Singleton Handler
     private static GameState instance;
@@ -56,6 +76,7 @@ public partial class GameState : Node {
         timeLimit = DefaultTime;
         timeLeft = timeLimit;
         keys = 0;
+        doorsUnlocked = 0;
     }
 
     // Values
@@ -92,6 +113,8 @@ public partial class GameState : Node {
     public double timeLimit;
 
     public double timeLeft;
+
+    public int doorsUnlocked;
 
     private int Keys;
 
@@ -136,8 +159,11 @@ public partial class GameState : Node {
     }
 
     // Game Flow
+
+    public double getTimeMult() { return timeLeft / 10; }
+
     public void winRound() {
-        tokens += wager * 2;
+        tokens += (int)Double.Round(wager * getTimeMult());
         resetValues(false);
         CallDeferred(MethodName.play);
     }
