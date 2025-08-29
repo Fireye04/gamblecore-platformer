@@ -25,6 +25,9 @@ public partial class GameState : Node {
     [Export]
     public int StartTokens = 0;
 
+    [Export]
+    public int DefaultTime = 90;
+
     // Singleton Handler
     private static GameState instance;
 
@@ -50,6 +53,8 @@ public partial class GameState : Node {
         wagerMod = 0;
         boons = new HashSet<String>();
         banes = new HashSet<String>();
+        timeLimit = DefaultTime;
+        timeLeft = timeLimit;
         keys = 0;
     }
 
@@ -82,6 +87,11 @@ public partial class GameState : Node {
     public HashSet<String> boons;
 
     public HashSet<String> banes;
+
+    // Seconds
+    public double timeLimit;
+
+    public double timeLeft;
 
     private int Keys;
 
@@ -129,7 +139,12 @@ public partial class GameState : Node {
     public void winRound() {
         tokens += wager * 2;
         resetValues(false);
-        play();
+        CallDeferred(MethodName.play);
+    }
+
+    public void loseRound() {
+        resetValues(false);
+        CallDeferred(MethodName.play);
     }
 
     // Scene Handling

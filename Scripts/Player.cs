@@ -123,6 +123,9 @@ public partial class Player : CharacterBody2D {
                 (IInteractable)iBox.find_nearest_interactable();
             if (target.canInteract()) {
                 target.interact();
+                GameState.GetGSInstance().EmitSignal(
+                    GameState.SignalName.InteractionUpdate,
+                    iBox.find_nearest_interactable());
             }
         }
     }
@@ -150,9 +153,7 @@ public partial class Player : CharacterBody2D {
                                           int shape_index,
                                           int local_shape_index) {
 
-        GameState gs = GameState.GetGSInstance();
-        gs.resetValues(false);
-        gs.CallDeferred(GameState.MethodName.play);
+        GameState.GetGSInstance().loseRound();
     }
 
     // Has hit key
@@ -160,7 +161,6 @@ public partial class Player : CharacterBody2D {
                                           int shape_index,
                                           int local_shape_index) {
         GameState.GetGSInstance().keys += 1;
-        GD.Print(body.Name);
         body.QueueFree();
     }
     private void OnInteractionBoxAreaShapeEntered(Godot.Rid rid, Node2D body,

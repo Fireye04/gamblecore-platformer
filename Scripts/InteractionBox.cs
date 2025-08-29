@@ -33,7 +33,6 @@ public partial class InteractionBox : Area2D {
     }
 
     public Node find_nearest_interactable() {
-        GD.Print(interactablesInRange.Count);
         if (interactablesInRange.Count == 1) {
             return interactablesInRange[0];
 
