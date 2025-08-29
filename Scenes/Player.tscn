@@ -96,7 +96,7 @@ script = ExtResource("3_gntrk")
 shape = SubResource("RectangleShape2D_dewec")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(3, 3)
+zoom = Vector2(2, 2)
 
 [node name="HitBox" type="Area2D" parent="."]
 collision_layer = 0
