@@ -250,6 +250,7 @@ public partial class Player : CharacterBody2D
         if (gs.lives > 0)
         {
             Transform = Spawnpoint.Transform;
+            endDash();
         }
         else
         {
