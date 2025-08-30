@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=3 uid="uid://qbc8n471heex"]
+
+[ext_resource type="Script" uid="uid://byxot07oybj5s" path="res://Scripts/Gate.cs" id="1_hn85u"]
+[ext_resource type="Texture2D" uid="uid://duj2rut2w0gc" path="res://Assets/tilemap.png" id="2_kfxhe"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4dmbs"]
+atlas = ExtResource("2_kfxhe")
+region = Rect2(128, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dyksl"]
+atlas = ExtResource("2_kfxhe")
+region = Rect2(128, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_03n5m"]
+atlas = ExtResource("2_kfxhe")
+region = Rect2(160, 128, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_atm3l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4dmbs")
+}],
+"loop": false,
+"name": &"locked",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dyksl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03n5m")
+}],
+"loop": false,
+"name": &"unlock",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p0e35"]
+size = Vector2(24, 32.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hn85u"]
+size = Vector2(28, 32)
+
+[node name="Gate" type="Area2D"]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_hn85u")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+z_index = -1
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_atm3l")
+animation = &"unlock"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_p0e35")
+
+[node name="Collision" type="StaticBody2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision"]
+shape = SubResource("RectangleShape2D_hn85u")
