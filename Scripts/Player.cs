@@ -184,7 +184,7 @@ public partial class Player : CharacterBody2D
             _dashCharges--;
         }
 
-        if (dashing && Input.IsActionJustReleased("dash"))
+        if (useDashCutting && dashing && Input.IsActionJustReleased("dash"))
         {
             endDash();
         }

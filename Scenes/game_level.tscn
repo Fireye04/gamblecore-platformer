@@ -75,6 +75,7 @@ sources/0 = SubResource("TileSetAtlasSource_gk7h0")
 
 [node name="Player" parent="." node_paths=PackedStringArray("Spawnpoint") instance=ExtResource("1_6mi8o")]
 Spawnpoint = NodePath("../spawnpoint")
+useDashCutting = false
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
