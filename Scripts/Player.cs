@@ -2,8 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class Player : CharacterBody2D
-{
+public partial class Player : CharacterBody2D {
 
     [Export]
     public Node2D Spawnpoint;
@@ -27,15 +26,11 @@ public partial class Player : CharacterBody2D
     public bool pointingRight = true;
 
     // BOON Handlers
-    public int getTotalDoubleJumps()
-    {
+    public int getTotalDoubleJumps() {
         HashSet<string> bs = GameState.GetGSInstance().boons;
-        if (bs.Contains("Double Jump 2"))
-        {
+        if (bs.Contains("Double Jump 2")) {
             return 2;
-        }
-        else if (bs.Contains("Double Jump 1"))
-        {
+        } else if (bs.Contains("Double Jump 1")) {
             return 1;
         }
         return 0;
@@ -45,25 +40,20 @@ public partial class Player : CharacterBody2D
 
     public int jumpsLeft;
 
-    public bool getDashEnabled()
-    {
+    public bool getDashEnabled() {
         HashSet<string> bs = GameState.GetGSInstance().boons;
         return bs.Contains("Dash");
     }
 
-    public bool isDirectionalDashEnabled()
-    {
+    public bool isDirectionalDashEnabled() {
         HashSet<string> bs = GameState.GetGSInstance().boons;
         return bs.Contains("DirectionalDash");
-
     }
 
-    public int getMaxDashes()
-    {
+    public int getMaxDashes() {
         HashSet<string> bs = GameState.GetGSInstance().boons;
         return bs.Contains("DoubleDirectionalDash") ? 2 : 1;
     }
-
 
     public bool dashing;
 
@@ -77,8 +67,7 @@ public partial class Player : CharacterBody2D
 
     private ulong _lastGroundedTime;
 
-    public override void _Ready()
-    {
+    public override void _Ready() {
         jumpsLeft = getTotalDoubleJumps();
         totalDoubleJumps = getTotalDoubleJumps();
         _dashEnabled = getDashEnabled();
@@ -91,40 +80,34 @@ public partial class Player : CharacterBody2D
     }
 
     // handle movement
-    public override void _PhysicsProcess(double delta)
-    {
+    public override void _PhysicsProcess(double delta) {
         Vector2 velocity = Velocity;
 
         // Reset double jumps on floor
-        if (jumpsLeft < totalDoubleJumps && IsOnFloor())
-        {
+        if (jumpsLeft < totalDoubleJumps && IsOnFloor()) {
             jumpsLeft = totalDoubleJumps;
         }
-        // Update for CanJump state. 
-        if (IsOnFloor())
-        {
+        // Update for CanJump state.
+        if (IsOnFloor()) {
             _lastGroundedTime = Time.GetTicksMsec();
+            if (_dashCharges != getMaxDashes()) {
+                _dashCharges = getMaxDashes();
+            }
         }
 
-        if (dashing)
-        {
+        if (dashing) {
             velocity = _dashVelocity;
-        }
-        else
-        {
+        } else {
             // Add the gravity.
-            if (!IsOnFloor())
-            {
+            if (!IsOnFloor()) {
                 velocity += GetGravity() * (float)delta;
                 sprite.Play("falling");
             }
 
             // Handle Jump.
             if (Input.IsActionJustPressed("jump") &&
-                (CanJump() || jumpsLeft > 0))
-            {
-                if (!CanJump())
-                {
+                (CanJump() || jumpsLeft > 0)) {
+                if (!CanJump()) {
                     jumpsLeft -= 1;
                 }
                 velocity.Y = JumpVelocity;
@@ -132,22 +115,17 @@ public partial class Player : CharacterBody2D
             }
 
             _moveDirection = Input.GetVector("left", "right", "up", "down");
-            if (_moveDirection != Vector2.Zero)
-            {
+            if (_moveDirection != Vector2.Zero) {
                 velocity.X = _moveDirection.X * Speed;
 
                 // Handle walk anims
                 setDirection(_moveDirection);
-                if (IsOnFloor())
-                {
+                if (IsOnFloor()) {
                     sprite.Play("run");
                 }
-            }
-            else
-            {
+            } else {
                 velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-                if (IsOnFloor())
-                {
+                if (IsOnFloor()) {
                     sprite.Play("idle");
                 }
             }
@@ -156,8 +134,7 @@ public partial class Player : CharacterBody2D
         // Handle interaction prompt update on move if there are multiple in
         // range
         if ((velocity.X != 0 || velocity.Y != 0) &&
-            iBox.interactablesInRange.Count > 1)
-        {
+            iBox.interactablesInRange.Count > 1) {
 
             GameState.GetGSInstance().EmitSignal(
                 GameState.SignalName.InteractionUpdate,
@@ -169,34 +146,31 @@ public partial class Player : CharacterBody2D
     }
 
     // Handle special inputs
-    public override void _Input(InputEvent @event)
-    {
+    public override void _Input(InputEvent @event) {
         // TODO: If cannot dash, communicate to player
-        if (@event.IsActionPressed("dash") && canDash())
-        {
+        if (@event.IsActionPressed("dash") && canDash()) {
             anim.Play("Dash");
             _dashVelocity = new Vector2((pointingRight ? 2f : -2f) * Speed, 0);
 
-            if (isDirectionalDashEnabled())
-            {
+            if (isDirectionalDashEnabled()) {
+                if (_moveDirection.X == 0 && _moveDirection.Y == 0) {
+                    _moveDirection.X = pointingRight ? 1 : -1;
+                }
                 _dashVelocity = Speed * 2f * _moveDirection;
             }
             _dashCharges--;
         }
 
-        if (useDashCutting && dashing && Input.IsActionJustReleased("dash"))
-        {
+        if (useDashCutting && dashing && Input.IsActionJustPressed("dash")) {
             endDash();
         }
 
         // Interaction
         if (@event.IsActionPressed("interact") &&
-            iBox.interactablesInRange.Count > 0)
-        {
+            iBox.interactablesInRange.Count > 0) {
             IInteractable target =
                 (IInteractable)iBox.find_nearest_interactable();
-            if (target.canInteract())
-            {
+            if (target.canInteract()) {
                 target.interact();
                 GameState.GetGSInstance().EmitSignal(
                     GameState.SignalName.InteractionUpdate,
@@ -205,55 +179,42 @@ public partial class Player : CharacterBody2D
         }
     }
 
-    public bool CanJump()
-    {
-        return IsOnFloor() || Time.GetTicksMsec() - _lastGroundedTime < CoyoteTime * 1000f;
+    public bool CanJump() {
+        return IsOnFloor() ||
+               Time.GetTicksMsec() - _lastGroundedTime < CoyoteTime * 1000f;
     }
 
-    public void setDirection(Vector2 dir)
-    {
+    public void setDirection(Vector2 dir) {
         pointingRight = dir.X > 0;
         sprite.FlipH = !pointingRight;
     }
 
-    private bool canDash()
-    {
+    private bool canDash() {
         return _dashEnabled && !dashing && _dashCharges > 0;
     }
 
-    public void dash()
-    {
-        dashing = true;
-    }
+    public void dash() { dashing = true; }
 
-    public void endDash()
-    {
+    public void endDash() {
         dashing = false;
         Velocity = Vector2.Zero;
         timer.Start();
     }
 
     // Dash timer finished
-    private void OnTimerTimeout()
-    {
-        _dashCharges = getMaxDashes();
-    }
+    private void OnTimerTimeout() { _dashCharges = getMaxDashes(); }
 
     // Has hit damage object
     private void OnHitBoxBodyShapeEntered(Godot.Rid rid, Node2D body,
                                           int shape_index,
-                                          int local_shape_index)
-    {
+                                          int local_shape_index) {
 
         GameState gs = GameState.GetGSInstance();
         gs.lives -= 1;
-        if (gs.lives > 0)
-        {
+        if (gs.lives > 0) {
             Transform = Spawnpoint.Transform;
             endDash();
-        }
-        else
-        {
+        } else {
             gs.loseRound();
         }
     }
@@ -261,13 +222,8 @@ public partial class Player : CharacterBody2D
     // Has hit key
     private void OnKeyBoxAreaShapeEntered(Godot.Rid rid, Node2D body,
                                           int shape_index,
-                                          int local_shape_index)
-    {
+                                          int local_shape_index) {
         GameState.GetGSInstance().keys += 1;
         body.QueueFree();
     }
-    private void OnInteractionBoxAreaShapeEntered(Godot.Rid rid, Node2D body,
-                                                  int shape_index,
-                                                  int local_shape_index)
-    { }
 }
