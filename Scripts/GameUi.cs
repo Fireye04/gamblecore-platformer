@@ -79,7 +79,11 @@ public partial class GameUi : Control {
         } else if (gs.banes.Contains("Time Limit 1")) {
             timeLeft = 60;
         } else {
-            timeLeft = gs.timeLimit;
+            if (gs.timeLimit == 0) {
+                timeLeft = 90;
+            } else {
+                timeLeft = gs.timeLimit;
+            }
         }
     }
 
