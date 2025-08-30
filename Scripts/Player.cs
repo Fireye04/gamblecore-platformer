@@ -67,10 +67,6 @@ public partial class Player : CharacterBody2D
 
     public bool dashing;
 
-<<<<<<< HEAD
-    public override void _Ready()
-    {
-=======
     private bool _dashEnabled;
 
     private int _dashCharges = 0;
@@ -83,7 +79,6 @@ public partial class Player : CharacterBody2D
 
     public override void _Ready()
     {
->>>>>>> c75345d (add (double) directional dashing.)
         jumpsLeft = getTotalDoubleJumps();
         totalDoubleJumps = getTotalDoubleJumps();
         _dashEnabled = getDashEnabled();
@@ -105,29 +100,6 @@ public partial class Player : CharacterBody2D
         {
             jumpsLeft = totalDoubleJumps;
         }
-
-<<<<<<< HEAD
-        // Update for CanJump state.
-        if (IsOnFloor())
-        {
-            LastGroundedTime = Time.GetTicksMsec();
-        }
-
-        if (dashing)
-        {
-            if (pointingRight)
-            {
-                velocity.X = 2 * Speed;
-            }
-            else
-            {
-                velocity.X = -2 * Speed;
-            }
-        }
-        else
-        {
-=======
-
         // Update for CanJump state. 
         if (IsOnFloor())
         {
@@ -140,7 +112,6 @@ public partial class Player : CharacterBody2D
         }
         else
         {
->>>>>>> c75345d (add (double) directional dashing.)
             // Add the gravity.
             if (!IsOnFloor())
             {
@@ -160,17 +131,6 @@ public partial class Player : CharacterBody2D
                 _lastGroundedTime = 0;
             }
 
-<<<<<<< HEAD
-            Vector2 direction = Input.GetVector("left", "right", "up", "down");
-            if (direction != Vector2.Zero)
-            {
-                velocity.X = direction.X * Speed;
-
-                // Handle walk anims
-                setDirection(direction);
-                if (IsOnFloor())
-                {
-=======
             _moveDirection = Input.GetVector("left", "right", "up", "down");
             if (_moveDirection != Vector2.Zero)
             {
@@ -180,7 +140,6 @@ public partial class Player : CharacterBody2D
                 setDirection(_moveDirection);
                 if (IsOnFloor())
                 {
->>>>>>> c75345d (add (double) directional dashing.)
                     sprite.Play("run");
                 }
             }
@@ -213,13 +172,8 @@ public partial class Player : CharacterBody2D
     public override void _Input(InputEvent @event)
     {
         // TODO: If cannot dash, communicate to player
-<<<<<<< HEAD
-        if (@event.IsActionPressed("dash") && canDash)
-        {
-=======
         if (@event.IsActionPressed("dash") && canDash())
         {
->>>>>>> c75345d (add (double) directional dashing.)
             anim.Play("Dash");
             _dashVelocity = new Vector2((pointingRight ? 2f : -2f) * Speed, 0);
 
@@ -251,16 +205,9 @@ public partial class Player : CharacterBody2D
         }
     }
 
-<<<<<<< HEAD
-    public bool CanJump()
-    {
-        return IsOnFloor() ||
-               Time.GetTicksMsec() - LastGroundedTime < CoyoteTime * 1000f;
-=======
     public bool CanJump()
     {
         return IsOnFloor() || Time.GetTicksMsec() - _lastGroundedTime < CoyoteTime * 1000f;
->>>>>>> c75345d (add (double) directional dashing.)
     }
 
     public void setDirection(Vector2 dir)
@@ -269,10 +216,6 @@ public partial class Player : CharacterBody2D
         sprite.FlipH = !pointingRight;
     }
 
-<<<<<<< HEAD
-    public void dash()
-    {
-=======
     private bool canDash()
     {
         return _dashEnabled && !dashing && _dashCharges > 0;
@@ -280,7 +223,6 @@ public partial class Player : CharacterBody2D
 
     public void dash()
     {
->>>>>>> c75345d (add (double) directional dashing.)
         dashing = true;
     }
 
